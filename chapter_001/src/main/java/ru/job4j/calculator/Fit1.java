@@ -1,6 +1,6 @@
 package ru.job4j.calculator;
 
-public class Fit {
+public class Fit1 {
     /**
      * Идеальный вес для мужчины
      *
