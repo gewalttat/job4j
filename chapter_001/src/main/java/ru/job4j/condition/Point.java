@@ -10,7 +10,7 @@ public class Point {
     }
 
     public double distanceTo(Point that) {
-    return Math.sqrt(Math.pow(this.me - that.me, 2)+Math.pow(this.y - that.y, 2));
+        return Math.sqrt(Math.pow(this.me - that.me, 2)+Math.pow(this.y - that.y, 2));
     }
 
     public static void main(String[] args) {
