@@ -5,6 +5,8 @@ public class Max {
         if (first > second) {
             return first;
         }
-        return second;
+        else {
+            return second;
+        }
     }
 }
