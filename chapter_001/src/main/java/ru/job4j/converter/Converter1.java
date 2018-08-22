@@ -24,24 +24,16 @@ public class Converter1 {
     public int rubleToDollar(int value) {
         return value / 60;
     }
-
     /**
      * Конвертируем доллары в рубли.
      *
      * @param value доллары.
      * @return рубли
      */
-    public int DollarToRuble(int value) {
+    public int dollarToRuble(int value) {
         return value * 60;
     }
-
-    /**
-     * Конвертируем евро в рубли.
-     *
-     * @param value евро.
-     * @return рубли.
-     */
-    public int EuroToRuble(int value) {
+    public int euroToRuble(int value) {
         return value * 70;
     }
 }

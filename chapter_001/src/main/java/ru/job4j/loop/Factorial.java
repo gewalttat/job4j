@@ -1,5 +1,4 @@
 package ru.job4j.loop;
-
 public class Factorial {
     public int calc(int n) {
         int result = 1; //переменная для результата (1 потому что н*0=0)

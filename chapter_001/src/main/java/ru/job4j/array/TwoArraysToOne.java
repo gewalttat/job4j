@@ -6,21 +6,21 @@ public class TwoArraysToOne {
     static int[] merge(int[] a, int[] b) {
         int[] c = new int[a.length + b.length];
         int ia, ib, ic;
-
-        for (ia = ib = ic = 0; ic < c.length; ++ic) {
+     for (ia = ib = ic = 0; ic < c.length; ++ic) {
             if (ia < a.length) {
                 if (ib < b.length) {
-                    if (a[ia] < b[ib])
+                    if (a[ia] < b[ib]) {
                         c[ic] = a[ia++];
-                    else
+                    } else {
                         c[ic] = b[ib++];
+                    }
                 } else {
                     c[ic] = a[ia++];
                 }
-            } else
+            } else {
                 c[ic] = b[ib++];
+            }
         }
-
         return c;
     }
 }

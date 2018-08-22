@@ -1,11 +1,8 @@
 package ru.job4j.array;
-
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-
 public class FindLoopTest {
-
     @Test
     public void whenArrayHasLengh5Then0() {
         FindLoop find = new FindLoop();

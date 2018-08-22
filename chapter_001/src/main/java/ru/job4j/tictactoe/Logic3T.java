@@ -29,28 +29,28 @@ public class Logic3T {
         return result;
     }
     public boolean isWinnerO() {
-        boolean r = false;
+        boolean result = false;
         if (this.table[0][0].hasMarkO() && this.table[1][1].hasMarkO() && this.table[2][2].hasMarkO()
                 || this.table[2][0].hasMarkO() && this.table[1][1].hasMarkO() && this.table[0][2].hasMarkO()) {
-            r = true;
+            result = true;
         }
-        if (!r) {
+        if (!result) {
             for (int i = 0; i < this.table.length; i++) {
                 if (this.table[i][0].hasMarkO() && this.table[i][1].hasMarkO() && this.table[i][2].hasMarkO()) {
-                    r = true;
+                    result = true;
                     break;
                 }
             }
         }
-        if (!r) {
+        if (!result) {
             for (int i = 0; i < this.table.length; i++) {
                 if (this.table[0][i].hasMarkO() && this.table[1][i].hasMarkO() && this.table[2][i].hasMarkO()) {
-                    r = true;
+                    result = true;
                     break;
                 }
             }
         }
-        return r;
+        return result;
     }
     public boolean hasGap() {
         boolean result = false;

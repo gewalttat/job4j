@@ -1,19 +1,19 @@
 package ru.job4j.array;
 
-public class qwerty {
-    /*
-    для сортировки применим стандартный метод пузырьком
-     */
-    public int[] sort(int mass[]) {
-        for (int i = 0; i < mass.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (mass[j] > mass[j + 1]) {
-                    int tmp = mass[j];
-                    mass[j] = mass[j + 1];
-                    mass[j + 1] = tmp;
+public class Qwerty {
+    public boolean isSort(int[] a) {
+        boolean result;
+        for (int i = 0; i < a.length - 1; i++) {
+            if (a[i] > a[i + 1]) {
+                result = false;
+            } else {
+                for (int j = 0; j < a.length - 1; j++) {
+                    if (a[i] < a[j + 1]) {
+                        result = false;
+                    }
                 }
             }
         }
-        return mass;
+        return true;
     }
 }

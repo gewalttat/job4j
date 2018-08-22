@@ -8,9 +8,7 @@ import static org.junit.Assert.assertThat;
  * @since 0.1
  */
 public class DummyBotTest {
-
-
-        @Test
+    @Test
         public void whenGreetBot() {
             DummyBot bot = new DummyBot();
             assertThat(
@@ -18,7 +16,6 @@ public class DummyBotTest {
                     is("Привет, умник.")
             );
         }
-
         @Test
         public void whenByuBot() {
             DummyBot bot = new DummyBot();
@@ -27,7 +24,6 @@ public class DummyBotTest {
                     is("До скорой встречи.")
             );
         }
-
         @Test
         public void whenUnknownBot() {
             DummyBot bot = new DummyBot();
