@@ -17,40 +17,35 @@ public class Tracker {
     public void replace(String id, Item item) {
         for (int i = 0; i < this.position; i++)
             if (this.items[i].getId().equals(id)) {
+                item.setId(id);
                 this.items[i] = item;
-                break;
             }
     }
 
     public void delete(String id) {
         int PosLength = 0;
-        for (int i = 0; i < this.position; i++) {
-            for (int j = i + 1; j < PosLength; j++) {
-                if (items[i].getId().equals(PosLength)) {
-                    items[i] = items[1 - PosLength];
-                    PosLength--;
-                    j--;
-                }
+        for (int i = 0; i != this.position; i++) {
+            if (this.items[i] != null && this.items.equals(id)) {
+                PosLength = i;
+                System.arraycopy(this.items, PosLength, items, PosLength--, position - 1);
+                break;
             }
         }
-        Arrays.copyOf(items, PosLength);
     }
 
     public Item[] findAll() {
-        Item[] searcher = new Item[position];
-        System.arraycopy(items, 0, searcher, 0, position);
-        return searcher;
+        return Arrays.copyOf(this.items, this.position);
     }
 
     public Item[] findByName(String key) {
         Item[] nameSearcher = new Item[position];
+        int count = 0;
         for (int i = 0; i < this.position; i++) {
             if (items[i].getName().equals(key)) {
-                nameSearcher[i] = items[i];
-                i++;
+                nameSearcher[count++] = items[i];
             }
         }
-        return nameSearcher;
+        return Arrays.copyOf(nameSearcher, count);
     }
 
     protected Item findById(String id) {
@@ -64,15 +59,12 @@ public class Tracker {
         return result;
     }
 
-    String generateId() {
+    public String generateId() {
         return String.valueOf(System.currentTimeMillis() + rand.nextInt(100));
     }
 
     public Item[] getAll() {
         Item[] result = new Item[position];
-        for (int i = 0; i != this.position; i++) {
-            result[i] = this.items[i];
-        }
-        return result;
+        return Arrays.copyOf(this.items, this.position);
     }
 }
