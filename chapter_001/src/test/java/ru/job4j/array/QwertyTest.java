@@ -13,4 +13,12 @@ public class QwertyTest {
         boolean result = qw.isSort(input);
         assertThat(result, is(true));
     }
+
+    @Test
+    public void arrayUnsortWithSixElements() {
+        Qwerty qw = new Qwerty();
+        int input[] = new int[]{2, 1, 7, 4, 9};
+        boolean result = qw.isSort(input);
+        assertThat(result, is(false));
+    }
 }
