@@ -14,23 +14,25 @@ public class Tracker {
         return item;
     }
 
-    public void replace(String id, Item item) {
+    public boolean replace(String id, Item item) {
         for (int i = 0; i < this.position; i++)
             if (this.items[i].getId().equals(id)) {
                 item.setId(id);
                 this.items[i] = item;
             }
+        return false;
     }
 
-    public void delete(String id) {
-        int PosLength = 0;
+    public boolean delete(String id) {
+        int poslength = 0;
         for (int i = 0; i != this.position; i++) {
             if (this.items[i] != null && this.items.equals(id)) {
-                PosLength = i;
-                System.arraycopy(this.items, PosLength, items, PosLength--, position - 1);
+                poslength = i;
+                System.arraycopy(this.items, i + 1, items, i, position - i - 1);
                 break;
             }
         }
+        return false;
     }
 
     public Item[] findAll() {
