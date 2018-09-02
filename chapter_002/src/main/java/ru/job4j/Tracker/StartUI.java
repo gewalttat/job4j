@@ -4,10 +4,10 @@ public class StartUI {
     /*
     меню приложения
      */
-    public static final String add = "0";
-    public static final String show = "1";
-    public static final String edit = "2";
-    public static final String delete = "3";
+    private static final String add = "0";
+    private static final String show = "1";
+    private static final String edit = "2";
+    private static final String delete = "3";
     private static final String findbyid = "4";
     private static final String findbyname = "5";
     private static final String EXIT = "6";
