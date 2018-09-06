@@ -6,10 +6,10 @@ since 02.09
 если больше, то передаем ее значение в @sequence и выводим последовательность
  */
 public class MaxNum {
-    public int MaxNum(int[] a) {
+    public int maxNum(int[] a) {
         int count = 1, sequence = 1;
-        for (int i = 1; i < a.length; i++) {
-            if (a[i] >= a[i - 1]) {
+        for (int i = 0; i < a.length - 1; i++) {
+            if (a[i] == a[i + 1]) {
                 count++;
             } else {
                 count = 1;
