@@ -1,15 +1,15 @@
-package ru.job4j.Tracker;
+package ru.job4j.tracker;
 
 public class StartUI {
     /*
     меню приложения
      */
-    private static final String add = "0";
-    private static final String show = "1";
-    private static final String edit = "2";
-    private static final String delete = "3";
-    private static final String findbyid = "4";
-    private static final String findbyname = "5";
+    private static final String ADD = "0";
+    private static final String SHOW = "1";
+    private static final String EDIT = "2";
+    private static final String DELETE = "3";
+    private static final String FINDBYID = "4";
+    private static final String FINDBYNAME = "5";
     private static final String EXIT = "6";
 
     private final Input input;
@@ -28,17 +28,17 @@ public class StartUI {
         while (!exit) {
             this.showMenu();
             String answer = this.input.ask("Пожалуйста, введите наименование заявки: ");
-            if (add.equals(answer)) {
+            if (ADD.equals(answer)) {
                 this.createItem();
-            } else if (show.equals(answer)) {
+            } else if (SHOW.equals(answer)) {
                 this.showAllItems();
-            } else if (edit.equals(answer)) {
+            } else if (EDIT.equals(answer)) {
                 this.editItem();
-            } else if (delete.equals(answer)) {
+            } else if (DELETE.equals(answer)) {
                 this.deleteItem();
-            } else if (findbyid.equals(answer)) {
+            } else if (FINDBYID.equals(answer)) {
                 this.itemById();
-            } else if (findbyname.equals(answer)) {
+            } else if (FINDBYNAME.equals(answer)) {
                 this.itemByName();
             } else if (EXIT.equals(answer)) {
                 exit = true;
@@ -71,7 +71,7 @@ public class StartUI {
     }
 
     private void showAllItems() {
-        System.out.println("-----------Все заявки-------------" + this.tracker.findAll());
+        System.out.println("-----------Все заявки-------------" + this.tracker.findAll() + "--------------");
     }
 
     private void editItem() {
