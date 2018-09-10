@@ -1,4 +1,4 @@
-package ru.job4j.Tracker;
+package ru.job4j.tracker;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -6,20 +6,21 @@ import java.util.Random;
 public class Tracker {
     private Item[] items = new Item[100];
     private int position = 0;
-    private static final Random rand = new Random();
+    private static final Random RAND = new Random();
 
     public Item add(Item item) {
-        item.setId(String.valueOf(rand.nextInt()));
+        item.setId(String.valueOf(RAND.nextInt()));
         this.items[position++] = item;
         return item;
     }
 
     public boolean replace(String id, Item item) {
-        for (int i = 0; i < this.position; i++)
+        for (int i = 0; i < this.position; i++) {
             if (this.items[i].getId().equals(id)) {
                 item.setId(id);
                 this.items[i] = item;
             }
+        }
         return false;
     }
 
@@ -62,7 +63,7 @@ public class Tracker {
     }
 
     public String generateId() {
-        return String.valueOf(System.currentTimeMillis() + rand.nextInt(100));
+        return String.valueOf(System.currentTimeMillis() + RAND.nextInt(100));
     }
 
     public Item[] getAll() {
