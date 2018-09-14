@@ -14,6 +14,16 @@ public class Tracker {
         return item;
     }
 
+    public void edit(Item fresh) {
+        for (int index = 0; index != items.length; ++index) {
+            Item item = items[index];
+            if (item != null && item.getId().equals(fresh.getId())) {
+                items[index] = fresh;
+                break;
+            }
+        }
+    }
+
     public boolean replace(String id, Item item) {
         for (int i = 0; i < this.position; i++) {
             if (this.items[i].getId().equals(id)) {

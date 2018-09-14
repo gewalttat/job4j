@@ -24,10 +24,17 @@ public class StartUI {
      * Основой цикл программы.
      */
     public void init() {
+        MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        menu.fillActions();
+        do {
+            menu.show();
+            int key = Integer.valueOf(input.ask("Select: "));
+            menu.SelectActions(key);
+        } while (!"y".equals(this.input.ask("Exit? y")));
         boolean exit = false;
         while (!exit) {
             this.showMenu();
-            String answer = this.input.ask("Пожалуйста, введите наименование заявки: ");
+            String answer = this.input.ask("Please input task name: ");
             if (ADD.equals(answer)) {
                 this.createItem();
             } else if (SHOW.equals(answer)) {
@@ -50,40 +57,40 @@ public class StartUI {
      * Метод реализует добавленяи новый заявки в хранилище.
      */
     private void createItem() {
-        System.out.println("------------ Добавление новой заявки --------------");
-        String name = this.input.ask("Введите имя заявки :");
-        String desc = this.input.ask("Введите описание заявки :");
+        System.out.println("------------ Add new task --------------");
+        String name = this.input.ask("Input task name :");
+        String desc = this.input.ask("Input task description :");
         Item item = new Item(name, desc);
         this.tracker.add(item);
-        System.out.println("------------ Новая заявка с getId : " + item.getId() + "-----------");
+        System.out.println("------------ New task с getId : " + item.getId() + "-----------");
     }
 
     private void showMenu() {
-        System.out.println("Меню:");
-        System.out.println("Добавление новой заявки");
-        System.out.println("Показать все заявки");
-        System.out.println("Редактировать заявку");
-        System.out.println("Удалить заявку");
-        System.out.println("Найти заявку по Id");
-        System.out.println("Найти заявку по наименованию");
-        System.out.println("Выход");
+        System.out.println("Menu:");
+        System.out.println("Add new task");
+        System.out.println("Show all tasks");
+        System.out.println("Edit task");
+        System.out.println("Delete task");
+        System.out.println("Find task by id");
+        System.out.println("Find task by name");
+        System.out.println("Exit");
 
     }
 
     private void showAllItems() {
-        System.out.println("-----------Все заявки-------------" + this.tracker.findAll() + "--------------");
+        System.out.println("-----------All Tasks-------------" + this.tracker.findAll() + "--------------");
     }
 
     private void editItem() {
-        System.out.println("-----------Редактирование заявки-----------");
-        String id = this.input.ask("Введите id заявки");
-        String name = this.input.ask("Введите новое наименование заявки: ");
-        String desc = this.input.ask("Введите новое описание: ");
+        System.out.println("-----------Edit task-----------");
+        String id = this.input.ask("Input task id");
+        String name = this.input.ask("Input new task name: ");
+        String desc = this.input.ask("Input new task description: ");
         Item item = new Item(name, desc);
         if (this.tracker.replace(id, item)) {
-            System.out.println("------------ Отредактированная заявка : " + item.toString() + " -----------");
+            System.out.println("------------ Edited task : " + item.toString() + " -----------");
         } else {
-            System.out.println("Заявка не найдена");
+            System.out.println("Task not find");
         }
     }
 
@@ -91,15 +98,15 @@ public class StartUI {
      * Метод реализует поиск заявки по name.
      */
     private void itemByName() {
-        System.out.println("------------ Поиск заявки по наименованию --------------");
-        String name = this.input.ask("Введите наименование заявки :");
+        System.out.println("------------ Find task by name --------------");
+        String name = this.input.ask("Input task name:");
         Item[] result = this.tracker.findByName(name);
         if (result.length > 0) {
             for (int i = 0; i < result.length; i++) {
-                System.out.println(" Заявка с наименованием " + name + " № " + (i + 1) + "" + result[i].toString());
+                System.out.println("Task with name is " + name + " № " + (i + 1) + "" + result[i].toString());
             }
         } else {
-            System.out.println(" Заявка с таким наименованием не найдена. Введите корректное наименование.");
+            System.out.println(" Task with this name is not found. Input correct name: ");
         }
     }
 
@@ -107,12 +114,12 @@ public class StartUI {
      * Метод реализует поиск заявки по id.
      */
     private void itemById() {
-        System.out.println("------------ Поиск заявки по ID --------------");
-        String id = this.input.ask("Введите id заявки :");
+        System.out.println("------------ Find task by id --------------");
+        String id = this.input.ask("Input task id :");
         if (this.tracker.findById(id) != null) {
-            System.out.println("------------ Заявка с id " + id + " : " + this.tracker.findById(id));
+            System.out.println("------------ Task with id " + id + " : " + this.tracker.findById(id));
         } else {
-            System.out.println("------------ Заявка с id " + id + " не найдена. Введите корректный id.");
+            System.out.println("------------ Task with id " + id + " is not found. Input correct id: ");
         }
     }
 
@@ -120,17 +127,17 @@ public class StartUI {
      * Метод реализует удаление заявки в хранилище.
      */
     private void deleteItem() {
-        System.out.println("------------ Удаление заявки --------------");
-        String id = this.input.ask("Введите id заявки: ");
+        System.out.println("------------ Delete task --------------");
+        String id = this.input.ask("Input task id: ");
         if (this.tracker.delete(id)) {
-            System.out.println("------------ Заявка с id : " + id + " удалена-----------");
+            System.out.println("------------ Task with id : " + id + " has deleted-----------");
         } else {
-            System.out.println("Заявки с введеным id не существует. Введите корректый id");
+            System.out.println("Task with this id is not found. Input correct id: ");
         }
     }
 
     /**
-     * Запускт программы.
+     * Запуск программы.
      *
      * @param args
      */
