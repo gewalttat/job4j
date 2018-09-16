@@ -1,74 +1,91 @@
 package ru.job4j.tracker;
 
-public class MenuTracker {
+import java.util.ArrayList;
+import java.util.List;
 
+public class MenuTracker {
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[5];
-
+    private List<UserAction> actions = new ArrayList<>();
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
 
+    public int getActionLength() {
+        return this.actions.size();
+    }
     void fillActions() {
-        this.actions[0] = new AddItem();
-        this.actions[1] = new MenuTracker.ShowItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = new ItemFindById();
-
+        this.actions.add(new AddItem(0, "Add new task"));
+        this.actions.add(new ShowItems(1, "Show all tasks"));
+        this.actions.add(new MenuTracker.EditItem(2, "Edit task"));
+        this.actions.add(new DeleteItem(3, "Delete task"));
+        this.actions.add(new ItemFindById(4, "Find task by id"));
+        this.actions.add(new ItemFindByName(5, "Find task by name"));
+        this.actions.add(new UserExit(6, "Exit program"));
     }
 
-    public void SelectActions(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+    public void select(int key) {
+        this.actions.get(key).execute(this.input, this.tracker);
     }
-
     public void show() {
         for (UserAction action : this.actions) {
             if (null != action) {
-                System.out.println(action.info());
+                System.out.println(action.key() + " " + action.info());
             }
         }
     }
-
     private class AddItem implements UserAction {
-        public int key() {
-            return 0;
-        }
+        private int keyCount;
+        private String menuOption;
 
+        public AddItem(int keyCount, String menuOption) {
+            this.keyCount = keyCount;
+            this.menuOption = menuOption;
+        }
+        public int key() {
+            return keyCount;
+        }
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Please, enter the task's name: ");
             String description = input.ask("Please, enter the task's desc: ");
             tracker.add(new Task(name, "first desc"));
         }
-
         public String info() {
-            return String.format("%s. %s", this.key(), "Add the new task ");
+            return menuOption;
         }
     }
-
     private static class ShowItems implements UserAction {
-        public int key() {
-            return 1;
-        }
+        private int keyCount;
+        private String menuOption;
 
+        public ShowItems(int keyCount, String menuOption) {
+            this.keyCount = keyCount;
+            this.menuOption = menuOption;
+        }
+        public int key() {
+            return keyCount;
+        }
         public void execute(Input input, Tracker tracker) {
             for (Item item : tracker.getAll()) {
                 System.out.println(String.format("%s. %s", item.getId(), item.getName()));
             }
         }
-
         public String info() {
-            return String.format("%s. %s", this.key(), "Show all tasks");
+            return menuOption;
         }
     }
-
     class EditItem implements UserAction {
-        public int key() {
-            return 2;
-        }
+        private int keyCount;
+        private String menuOption;
 
+        public EditItem(int keyCount, String menuOption) {
+            this.keyCount = keyCount;
+            this.menuOption = menuOption;
+        }
+        public int key() {
+            return keyCount;
+        }
         public void execute(Input input, Tracker tracker) {
             String id = input.ask("Please enter task id: ");
             String name = input.ask("Please, enter the task's name: ");
@@ -77,33 +94,41 @@ public class MenuTracker {
             task.setId(id);
             tracker.edit(task);
         }
-
         public String info() {
-            return String.format("%s. %s", this.key(), "Edit task");
+            return menuOption;
         }
     }
-
     class DeleteItem implements UserAction {
-        public int key() {
-            return 3;
-        }
+        private int keyCount;
+        private String menuOption;
 
+        public DeleteItem(int keyCount, String menuOption) {
+            this.keyCount = keyCount;
+            this.menuOption = menuOption;
+        }
+        public int key() {
+            return keyCount;
+        }
         public void execute(Input input, Tracker tracker) {
             String id = input.ask("Please enter task id: ");
             tracker.delete(id);
             System.out.println("Task with id " + id + " is deleted");
         }
-
         public String info() {
-            return String.format("%s. %s", this.key(), "Delete task");
+            return menuOption;
         }
     }
-
     class ItemFindById implements UserAction {
-        public int key() {
-            return 4;
-        }
+        private int keyCount;
+        private String menuOption;
 
+        public ItemFindById(int keyCount, String menuOption) {
+            this.keyCount = keyCount;
+            this.menuOption = menuOption;
+        }
+        public int key() {
+            return keyCount;
+        }
         public void execute(Input input, Tracker tracker) {
             String id = input.ask("Please enter task id: ");
             Item item = tracker.findById(id);
@@ -113,15 +138,47 @@ public class MenuTracker {
                 System.out.println("Task with this id is not found");
             }
         }
-
         public String info() {
-            return String.format("%s. %s", this.key(), "Find task by id");
+            return menuOption;
+        }
+    }
+    class ItemFindByName implements UserAction {
+        private int keyCount;
+        private String menuOption;
+
+        public ItemFindByName(int keyCount, String menuOption) {
+            this.keyCount = keyCount;
+            this.menuOption = menuOption;
+        }
+        public int key() {
+            return keyCount;
+        }
+        public void execute(Input input, Tracker tracker) {
+            String name = input.ask("Please enter task name: ");
+            for (Item index : tracker.findByName(name)) {
+                if (index != null) {
+                    System.out.println(String.format("id=%s name=%s description=%s", index.getId(), index.getName(), index.getDescription()));
+                } else {
+                    System.out.println("Task with this name is not found");
+                }
+            }
+        }
+        public String info() {
+            return menuOption;
         }
     }
 
-    class ItemFindByName implements UserAction {
+    class UserExit implements UserAction {
+        private int keyCount;
+        private String menuOption;
+
+        public UserExit(int keyCount, String menuOption) {
+            this.keyCount = keyCount;
+            this.menuOption = menuOption;
+        }
+
         public int key() {
-            return 5;
+            return keyCount;
         }
 
         public void execute(Input input, Tracker tracker) {
@@ -136,7 +193,7 @@ public class MenuTracker {
         }
 
         public String info() {
-            return String.format("%s. %s", this.key(), "Find task by name");
+            return menuOption;
         }
     }
 }
