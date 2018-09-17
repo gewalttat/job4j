@@ -49,7 +49,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Please, enter the task's name: ");
             String description = input.ask("Please, enter the task's desc: ");
-            tracker.add(new Task(name, "first desc"));
+            tracker.add(new Task(name, description));
         }
         public String info() {
             return menuOption;
@@ -172,7 +172,7 @@ public class MenuTracker {
         private int keyCount;
         private String menuOption;
 
-        public UserExit(int keyCount, String menuOption) {
+        UserExit(int keyCount, String menuOption) {
             this.keyCount = keyCount;
             this.menuOption = menuOption;
         }
@@ -182,16 +182,9 @@ public class MenuTracker {
         }
 
         public void execute(Input input, Tracker tracker) {
-            String name = input.ask("Please enter task name: ");
-            for (Item index : tracker.findByName(name)) {
-                if (index != null) {
-                    System.out.println(String.format("id=%s name=%s description=%s", index.getId(), index.getName(), index.getDescription()));
-                } else {
-                    System.out.println("Task with this name is not found");
-                }
-            }
+            System.out.println("Program is exit. Goodbye!");
+            System.exit(0);
         }
-
         public String info() {
             return menuOption;
         }
