@@ -15,13 +15,19 @@ public class StartUITest {
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final StringBuilder userMenu = new StringBuilder()
-            .append("0. Add new task")
-            .append("1. Show all tasks")
-            .append("2. Edit task")
-            .append("3. Delete task")
-            .append("4. Find task by id")
-            .append("5. Find task by name")
-            .append("6. Exit")
+            .append("0 Add new task")
+            .append(System.lineSeparator())
+            .append("1 Show all tasks")
+            .append(System.lineSeparator())
+            .append("2 Edit task")
+            .append(System.lineSeparator())
+            .append("3 Delete task")
+            .append(System.lineSeparator())
+            .append("4 Find task by id")
+            .append(System.lineSeparator())
+            .append("5 Find task by name")
+            .append(System.lineSeparator())
+            .append("6 Exit")
             .append(System.lineSeparator());
 
     @Before
@@ -33,29 +39,23 @@ public class StartUITest {
     public void backOutput() {
         System.setOut(this.stdout);
     }
+
     @Test
-    /*
-    ADD
-     */
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
         new StartUI(input, tracker).init();
         assertThat(tracker.getAll()[0].getName(), is("test name"));
     }
+
     @Test
-    /*
-     *EDIT
-     */
     public void whenUpdateThenTrackerHasUpdatedValue() {
         Item item = tracker.add(new Item("test name", "desc"));
         Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "task updated", "6"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findById(item.getId()).getName(), is("test replace"));
     }
+
     @Test
-    /*
-    DELETE
-     */
     public void whenDeleteItem() {
         Tracker trackerAfterDeleteTask = new Tracker();
         Item item = tracker.add(new Item("test name", "desc"));
@@ -68,9 +68,6 @@ public class StartUITest {
         assertThat(tracker.findAll(), is(tracker.findAll()));
     }
 
-    /*
-    FIND BY NAME
-     */
     @Test
     public void whenTerminalFindByName() {
         Item item = tracker.add(new Item("test1", "desc1"));
@@ -81,47 +78,48 @@ public class StartUITest {
 
     @Test
     public void whenUserFindByName() {
-        Item itemFirst = tracker.add(new Item("test1", "desc1"));
-        Item itemSecond = tracker.add(new Item("test1", "desc2"));
-        Item itemThird = tracker.add(new Item("test3", "desc3"));
-        Input input = new StubInput(new String[]{"5", "test1", "6"});
+        Item itemFirst = tracker.add(new Item("test1", "desc1 "));
+        Input input = new StubInput(new String[]{"5", itemFirst.getName(), "6"});
         new StartUI(input, tracker).init();
         assertThat(
                 new String(this.out.toByteArray()),
                 is(new StringBuilder().append(userMenu)
-                        .append("------------ Find task by name --------------")
-                        .append(System.lineSeparator())
-                        .append(" Task with name test1 № 1 " + itemFirst.toString())
-                        .append(System.lineSeparator())
-                        .append(" Task with name test1 № 2 " + itemSecond.toString())
+                        .append("id=" + itemFirst.getId() + " ")
+                        .append("name=" + itemFirst.getName() + " ")
+                        .append("description=" + itemFirst.getDescription())
                         .append(System.lineSeparator())
                         .append(userMenu)
-                        .toString()));
+                        .append("Program is exit. Goodbye!")
+                        .append(System.lineSeparator())
+                        .toString(
+
+                        )
+                )
+        );
     }
 
-    /*
-    FIND BY ID
-     */
     @Test
     public void whenFindById() {
         Item item = tracker.add(new Item("test1", "desc1"));
-        Item item2 = tracker.add(new Item("test2", "desc2"));
         Input input = new StubInput(new String[]{"4", item.getId(), "6"});
         new StartUI(input, tracker).init();
         assertThat(
                 new String(this.out.toByteArray()),
                 is(new StringBuilder().append(userMenu)
-                        .append("------------ Find task by id --------------")
-                        .append(System.lineSeparator())
-                        .append("------------ Task with id " + item.getId() + " : " + tracker.findById(item.getId()))
+                        .append("id=" + item.getId() + " ")
+                        .append("name=" + item.getName() + " ")
+                        .append("description=" + item.getDescription())
                         .append(System.lineSeparator())
                         .append(userMenu)
-                        .toString()));
+                        .append("Program is exit. Goodbye!")
+                        .append(System.lineSeparator())
+                        .toString(
+
+                        )
+                )
+        );
     }
 
-    /*
-    SHOW ALL
-     */
     @Test
     public void whenShowAll() {
         Item item = new Item("test1", "desc1");
@@ -136,13 +134,35 @@ public class StartUITest {
                 new String(this.out.toByteArray()),
                 is(new StringBuilder()
                         .append(userMenu)
-                        .append("------------ Task name : " + item.getName() + " ; Task descriptioin : " + item.getDescription() + " ------------")
+                        .append(item.getId() + ". " + item.getName())
                         .append(System.lineSeparator())
-                        .append("------------ Task name : " + item2.getName() + " ; Task descriptioin : " + item2.getDescription() + " ------------")
+                        .append(item2.getId() + ". " + item2.getName())
                         .append(System.lineSeparator())
-                        .append("------------ Task name : " + item3.getName() + " ; Task descriptioin : " + item3.getDescription() + " ------------")
+                        .append(item3.getId() + ". " + item3.getName())
                         .append(System.lineSeparator())
                         .append(userMenu)
-                        .toString()));
+                        .append("Program is exit. Goodbye!")
+                        .append(System.lineSeparator())
+                        .toString(
+
+                        )
+                )
+        );
+    }
+
+    @Test
+    public void whenUserExit() {
+        Input input = new StubInput(new String[]{"6"});
+        new StartUI(input, tracker).init();
+        assertThat(
+                new String(this.out.toByteArray()),
+                is(new StringBuilder()
+                        .append(userMenu)
+                        .append("Program is exit. Goodbye!")
+                        .append(System.lineSeparator())
+                        .toString(
+                        )
+                )
+        );
     }
 }

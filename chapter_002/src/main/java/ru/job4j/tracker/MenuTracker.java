@@ -7,27 +7,22 @@ public class MenuTracker {
     private Input input;
     private Tracker tracker;
     private List<UserAction> actions = new ArrayList<>();
+    List<Integer> range = new ArrayList<>();
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
 
-    public int getActionLength() {
-        return this.actions.size();
-    }
-    void fillActions() {
+    void fillActions(StartUI startUI) {
         this.actions.add(new AddItem(0, "Add new task"));
         this.actions.add(new ShowItems(1, "Show all tasks"));
         this.actions.add(new MenuTracker.EditItem(2, "Edit task"));
         this.actions.add(new DeleteItem(3, "Delete task"));
         this.actions.add(new ItemFindById(4, "Find task by id"));
         this.actions.add(new ItemFindByName(5, "Find task by name"));
-        this.actions.add(new UserExit(6, "Exit program"));
+        this.actions.add(new UserExit(startUI, 6, "Exit"));
     }
 
-    public void select(int key) {
-        this.actions.get(key).execute(this.input, this.tracker);
-    }
     public void show() {
         for (UserAction action : this.actions) {
             if (null != action) {
@@ -35,6 +30,20 @@ public class MenuTracker {
             }
         }
     }
+
+    private int getActionsLength() {
+        return this.actions.size();
+    }
+    public void select(int key) {
+        this.actions.get(key).execute(this.input, this.tracker);
+    }
+    public List<Integer> listValueCreate() {
+        for (int i = 0; i < this.getActionsLength(); i++) {
+            range.add(i);
+        }
+        return range;
+    }
+
     private class AddItem implements UserAction {
         private int keyCount;
         private String menuOption;
@@ -171,20 +180,22 @@ public class MenuTracker {
     class UserExit implements UserAction {
         private int keyCount;
         private String menuOption;
-
-        UserExit(int keyCount, String menuOption) {
+        private final StartUI startUI;
+        public UserExit(StartUI startUI, int keyCount, String menuOption) {
+            this.startUI = startUI;
             this.keyCount = keyCount;
             this.menuOption = menuOption;
         }
-
+        @Override
         public int key() {
             return keyCount;
         }
-
+        @Override
         public void execute(Input input, Tracker tracker) {
             System.out.println("Program is exit. Goodbye!");
-            System.exit(0);
+            startUI.stop();
         }
+        @Override
         public String info() {
             return menuOption;
         }
